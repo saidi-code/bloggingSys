@@ -6,6 +6,7 @@ const { PORT, Mongo_Uri } = require("./utils/config");
 const connectDb = require("./utils/dB");
 const notFound = require("./utils/middlewares/404");
 const requestLogger = require("./utils/middlewares/requesLogger");
+const ErrorHandler = require("./utils/middlewares/ErrorHandler");
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(requestLogger);
 app.use("/api/v1/", routes);
 app.use(notFound);
-
+app.use(ErrorHandler);
 const start = async () => {
   try {
     app.listen(PORT, () => {

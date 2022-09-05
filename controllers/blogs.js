@@ -21,7 +21,7 @@ const getAll = async (req, res) => {
     res.status(500).json({ error });
   }
 };
-const updateOne = async (req, res) => {
+const updateOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findOneAndUpdate({ _id: id }, req.body, {
@@ -33,11 +33,11 @@ const updateOne = async (req, res) => {
     }
     res.status(200).json({ status: "success", blog });
   } catch (error) {
-    res.status(500).json({ error });
+    next(error);
   }
   // req.body
 };
-const findOne = async (req, res) => {
+const findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const blog = await Blog.find({ _id: id });
@@ -46,10 +46,10 @@ const findOne = async (req, res) => {
     }
     res.status(200).json({ status: "success", blog });
   } catch (error) {
-    res.status(500).json({ error });
+    next(error);
   }
 };
-const deleteOne = async (req, res) => {
+const deleteOne = async (req, res, next) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findOneAndDelete({ _id: id });
@@ -58,7 +58,7 @@ const deleteOne = async (req, res) => {
     }
     res.status(200).json({ status: "success", blog });
   } catch (error) {
-    res.status(500).json({ error });
+    next(error);
   }
 };
 
