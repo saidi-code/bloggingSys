@@ -21,7 +21,7 @@ app.use(notFound);
 const start = async () => {
   try {
     app.listen(PORT, () => {
-      logger.info(`Server Start At Port ${Port}`);
+      logger.info(`Server Start At Port ${PORT}`);
     });
     connectDb();
   } catch (error) {
