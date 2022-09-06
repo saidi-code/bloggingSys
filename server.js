@@ -22,24 +22,24 @@ app.use("/api/v1/", routes);
 app.use(notFound);
 app.use(ErrorHandler);
 
-const start = async () => {
-  try {
-    startServer();
-    connectDb();
-  } catch (error) {
-    logger.error(error);
-  }
-};
-start();
 // const start = async () => {
 //   try {
-//     app.listen(PORT, () => {
-//       logger.info(`Server Start At Port ${PORT}`);
-//       connectDb();
-//     });
+//     startServer();
+//     connectDb();
 //   } catch (error) {
 //     logger.error(error);
 //   }
 // };
 // start();
+const start = async () => {
+  try {
+    app.listen(PORT, () => {
+      logger.info(`Server Start At Port ${PORT}`);
+      connectDb();
+    });
+  } catch (error) {
+    logger.error(error);
+  }
+};
+start();
 module.exports = startServer;
