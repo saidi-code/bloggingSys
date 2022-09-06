@@ -1,12 +1,12 @@
 const Blog = require("../models/blog");
-const logger = require("../utils/logger");
-const create = async (req, res) => {
+
+const create = async (req, res, next) => {
   try {
     const blog = await Blog.create(req.body);
     res.status(200).json({ status: "success", msg: "blog is created", blog });
   } catch (error) {
     // logger.error(error);
-    res.status(500).json({ error });
+    next(error);
   }
 };
 
@@ -16,9 +16,11 @@ const getAll = async (req, res) => {
     if (!blogs) {
       return res.status(404).json({ status: "failed", msg: "blog is emty" });
     }
-    res.status(200).json({ status: "success", nbrHits: blogs.length, blogs });
+    return res
+      .status(200)
+      .json({ status: "success", nbrHits: blogs.length, blogs });
   } catch (error) {
-    res.status(500).json({ error });
+    return res.status(500).json({ error });
   }
 };
 const updateOne = async (req, res, next) => {
@@ -31,7 +33,7 @@ const updateOne = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ msg: `No blog with id: ${id} find!` });
     }
-    res.status(200).json({ status: "success", blog });
+    return res.status(200).json({ status: "success", blog });
   } catch (error) {
     next(error);
   }
@@ -44,7 +46,7 @@ const findOne = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ msg: `No blog with id: ${id} find!` });
     }
-    res.status(200).json({ status: "success", blog });
+    return res.status(200).json({ status: "success", blog });
   } catch (error) {
     next(error);
   }
@@ -56,7 +58,7 @@ const deleteOne = async (req, res, next) => {
     if (!blog) {
       return res.status(404).json({ msg: `No blog with id: ${id} find!` });
     }
-    res.status(200).json({ status: "success", blog });
+    return res.status(200).json({ status: "success", blog });
   } catch (error) {
     next(error);
   }

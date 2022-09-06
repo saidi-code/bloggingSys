@@ -1,8 +1,8 @@
 const info = (msg) => {
   console.log(msg);
 };
-const error = (error) => {
-  console.log(error);
+const error = (err) => {
+  console.log(err);
 };
 module.exports = {
   info,
