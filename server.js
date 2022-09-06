@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require("./utils/logger");
-const routes = require("./routes/blog");
+const routes = require("./routes");
+// const routes = require("./routes/blog");
 const { PORT } = require("./utils/config");
 const connectDb = require("./utils/dB");
 const notFound = require("./utils/middlewares/404");

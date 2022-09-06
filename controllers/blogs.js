@@ -10,7 +10,7 @@ const create = async (req, res, next) => {
   }
 };
 
-const getAll = async (req, res) => {
+const getAll = async (req, res, next) => {
   try {
     const blogs = await Blog.find({});
     if (!blogs) {
@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
       .status(200)
       .json({ status: "success", nbrHits: blogs.length, blogs });
   } catch (error) {
-    return res.status(500).json({ error });
+    next(error);
   }
 };
 const updateOne = async (req, res, next) => {
@@ -42,7 +42,7 @@ const updateOne = async (req, res, next) => {
 const findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const blog = await Blog.find({ _id: id });
+    const blog = await Blog.findOne({ _id: id });
     if (!blog) {
       return res.status(404).json({ msg: `No blog with id: ${id} find!` });
     }
