@@ -2,8 +2,18 @@ const bcrypt = require("bcrypt");
 
 const User = require("../models/user");
 
-const getAll = (req, res) => {
-  res.json({ msg: `get All User` });
+const getAll = async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (!users) {
+      return res.status(404).json({ status: "failed", msg: "blog is emty" });
+    }
+    return res
+      .status(200)
+      .json({ status: "success", nbrHits: users.length, users });
+  } catch (error) {
+    next(error);
+  }
 };
 const createUser = async (req, res, next) => {
   try {

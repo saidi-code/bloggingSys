@@ -8,6 +8,7 @@ const connectDb = require("./utils/dB");
 const notFound = require("./utils/middlewares/404");
 const requestLogger = require("./utils/middlewares/requesLogger");
 const ErrorHandler = require("./utils/middlewares/ErrorHandler");
+const startServer = require("./utils/startServer");
 
 const app = express();
 
@@ -20,14 +21,25 @@ app.use(requestLogger);
 app.use("/api/v1/", routes);
 app.use(notFound);
 app.use(ErrorHandler);
+
 const start = async () => {
   try {
-    app.listen(PORT, () => {
-      logger.info(`Server Start At Port ${PORT}`);
-    });
+    startServer();
     connectDb();
   } catch (error) {
     logger.error(error);
   }
 };
 start();
+// const start = async () => {
+//   try {
+//     app.listen(PORT, () => {
+//       logger.info(`Server Start At Port ${PORT}`);
+//       connectDb();
+//     });
+//   } catch (error) {
+//     logger.error(error);
+//   }
+// };
+// start();
+module.exports = startServer;
