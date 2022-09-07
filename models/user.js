@@ -11,7 +11,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 5,
     },
-    blogs: [{ type: mongoose.Types.ObjectId, ref: "Blog", default: [] }],
+    blogs: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Blog",
+      },
+    ],
     password: String,
   },
   { timestamps: true }

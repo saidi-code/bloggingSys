@@ -4,7 +4,7 @@ const User = require("../models/user");
 
 const getAll = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).populate("blogs");
     if (!users) {
       return res.status(404).json({ status: "failed", msg: "blog is emty" });
     }
@@ -30,8 +30,17 @@ const createUser = async (req, res, next) => {
     next(error);
   }
 };
-const findUser = (req, res) => {
-  res.json({ msg: `find user` });
+const findUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).json({ msg: `No blog with id: ${id} find!` });
+    }
+    return res.status(200).json({ status: "success", user });
+  } catch (error) {
+    next(error);
+  }
 };
 const updateUser = (req, res) => {
   res.json({ msg: "update user" });

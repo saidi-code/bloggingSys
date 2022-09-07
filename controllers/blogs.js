@@ -1,9 +1,35 @@
 const Blog = require("../models/blog");
 
+const User = require("../models/user");
+
 const create = async (req, res, next) => {
   try {
-    const blog = await Blog.create(req.body);
-    res.status(200).json({ status: "success", msg: "blog is created", blog });
+    const { userId } = req.body;
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({ status: "failed", msg: "user is emty" });
+    }
+    const newBlog = ({
+      title,
+      content,
+      author,
+      userId: user._id,
+      url,
+      likes,
+    } = req.body);
+    const blog = await Blog.create(newBlog);
+    // user.blogs.push(blog._id);
+    // user.blogs = user.blogs.concat(blog._id);
+    updatedUser = await User.findOneAndUpdate(
+      { _id: user._id },
+      { $push: { blogs: blog._id } }
+    );
+    res.status(200).json({
+      status: "success",
+      msg: "blog is created",
+      blog,
+      user: updatedUser,
+    });
   } catch (error) {
     // logger.error(error);
     next(error);
